@@ -1,0 +1,10 @@
+使い方
+./OpenFace にて
+build/bin/FaceLandmarkVid -f videoname
+（動画用）
+
+build/bin/FaceLandmarkImg -f filename
+build/bin/FaceLandmarkImg -fdir dirname
+(画像用)
+
+
