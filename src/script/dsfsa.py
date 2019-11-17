@@ -13,6 +13,15 @@ from openface_manager import csvmanager,csv_integrate,openface_run #openface関�
 
 if __name__ == '__main__':
     get_img_path = "../making_dataset/tempimg/"
+    #dataset用のpath
+    dt_now = datetime.datetime.now()
+    
+    timestamp=dt_now.strftime('%Y%m%d%H%M%S')
+    user_dir = "../data/plot/"+timestamp
+    os.mkdir(user_dir)
+    #ユーザーごとにデータを整理するためのdirを作成する
+
+
     sys_init()
     if len(sys.argv) == 1:
         csv_path,file_num = smile_capture("")
