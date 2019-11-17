@@ -1,5 +1,5 @@
 # 卒論実装進捗管理  
-# First Impression Facial Survey Analyzer  
+# Delta Smile Facial Survey Analyzer  
 ***   
 ## Overview  
 
@@ -21,7 +21,9 @@ kgMTGにてweekly demo形式で発表
 ORFのドライラン用のポスターおよび実装物の作成  
 ### 20191110  
 OpenFaceの環境構築完了, 動画からのスマイルタイミングの検出完了
-
+### 20191115  
+OpenFaceからCSV書き出し, ユーザーごとのCSVファイル作成まで終了  
+クラスタリングのをどうするかを解決, ユーザーへの表示をどのようにするのかを考察して実装.
 
 ***
 ## REFERENCE  
