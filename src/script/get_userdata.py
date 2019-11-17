@@ -7,12 +7,18 @@ import datetime
 import csv
 from time import sleep
 
-def get_users_data(csv_dir):
+def get_users_data(csv_dir,mode):
     dir_path = csv_dir
-    csv_list_path = dir_path+ "*.csv"
-    csv_list = glob.glob(csv_list_path)
+    csv_list =[]
+    if mode ==0:
+        csv_list.append(dir_path)
+
+    elif mode ==1:
+        csv_list_path = dir_path+ "*.csv"
+        csv_list = glob.glob(csv_list_path)
     users_data_list =[]
-    print(csv_list)
+    print("usersdata:{}".format(users_data_list))
+    #print(csv_list)
     for csv_file in csv_list:
         with open(csv_file) as csv_f:
             reader = csv.reader(csv_f)
@@ -47,3 +53,4 @@ def get_users_data(csv_dir):
 if __name__ == '__main__':
     dir_path = "../data/output_csv/"
     users_data_list = get_users_data(dir_path)
+    print(users_data_list)

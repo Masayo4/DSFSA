@@ -37,13 +37,14 @@ def csvmanager(): #csvを移動させる
     for csv_file in csv_list:
         pwd_path = csv_file
         move_path = "../data/csv/"
-        print("pwd:{},move:{}".format(pwd_path,move_path))
+        #print("pwd:{},move:{}".format(pwd_path,move_path))
         new_path = shutil.move(pwd_path,move_path)
 
     shutil.rmtree(now_dir)
     return move_path,file_num
 
-def csv_integrate(dir_path,num):
+def csv_integrate(copy_dir,dir_path,num,mode):
+    user_dir = copy_dir
     csv_dir = dir_path
     file_num = num
     files = sorted(glob.glob('../data/csv/*.csv'))
@@ -55,16 +56,18 @@ def csv_integrate(dir_path,num):
     merge_csv = pd.concat(csv_list)
     dt_now = datetime.datetime.now()
     timestamp=dt_now.strftime('%Y%m%d%H%M%S')
-    file_name = "../data/output_csv/"+timestamp +".csv"
+    dir_name =  "../data/output_csv/"
+    file_name = dir_name+timestamp +".csv"
     merge_csv.to_csv(file_name,encoding='utf_8',index=False)
-    shutil.rmtree(csv_dir)
-    os.mkdir(csv_dir)
-    print("finish.")
-
-
-
-
-if __name__ == '__main__':
-    csv_path,file_num = csvmanager()
-    csv_integrate(csv_path,file_num)
-    #csv_integrate("../data/csv/",21)
+    if mode == 0:
+        print("copy")
+        shutil.copy(file_name,user_dir)#ユーザーが混同しないようにuser_dirにコピーを作成
+        shutil.rmtree(csv_dir)
+        os.mkdir(csv_dir)
+        print("finish.")
+        return file_name
+    elif mode ==1:
+        shutil.rmtree(csv_dir)
+        os.mkdir(csv_dir)
+        print("finish.")
+        return dir_name

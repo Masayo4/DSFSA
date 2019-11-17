@@ -9,14 +9,19 @@ import os
 import sys
 import shutil
 import datetime
+import glob
 from time import sleep
 from dirmanager import sys_init,tempdir_cleaner #manager.py よりdirの整理系
 from making_smilevideo import making_smilevideo #making_smilevideoよりvideoの作成
 from openface_manager import csvmanager #openface関係
 
-def smile_capture(video_path):
+def smile_capture(dir_path):
     print("smilecapture_function")
-    file = video_path
+    #file = dir_path 元
+    files_list_path = dir_path+ "*"
+    files_list = glob.glob(files_list_path)
+    print(files_list)
+
     show_window_name = 'now_frame'
     #表示するwindow nameを統一するための変数
     face_detect_cascade_path = "../dataset/haarcascades/haarcascade_frontalface_default.xml"
@@ -32,13 +37,14 @@ def smile_capture(video_path):
     delete_file_counter = 0 #60フレームで動画を作るのでフォルダの中は常に60枚の画像にしておく
     window_manager = 0 #windowの切り替え
     cap_smile = 0
+    file_num = 0
 
-    if file == "":
+    if files_list == []:
         cap = cv2.VideoCapture(0) #webカメラなどデバイスから動画を検出する場合は引数に数値にしていする
         print("start_from_webcam")
         cap_smile = 3 #webカメラだったら3フレーム継続
     else:
-        cap = cv2.VideoCapture(file) #Videoからのキャプチャーをするときはこの引数に指定する
+        cap = cv2.VideoCapture(files_list[file_num]) #Videoからのキャプチャーをするときはこの引数に指定する
         print("use_video_file")
         cap_smile = 5 #動画ファイルだったら5フレーム継続
 
@@ -86,9 +92,10 @@ def smile_capture(video_path):
 
                     if frame_counter >20:
                         if smile_frame >cap_smile: #このフレーム数を調整
-                            making_smilevideo(delete_file_counter,frame_counter) #making_smilevideo.py を呼び出す
+                            output_file = making_smilevideo(delete_file_counter,frame_counter) #making_smilevideo.py を呼び出す
                             csv_path,file_num = csvmanager()
                             if cap_smile == 3:
+                                shutil.copy(output_file,dir_path)#ユーザーが混同しないようにuser_dirにコピーを作成
                                 cap.release()
                                 cv2.destroyAllWindows()
                                 return csv_path,file_num #抜ける処理(return でなにを返す...?)
@@ -121,13 +128,6 @@ def smile_capture(video_path):
     cv2.destroyAllWindows()
 
 
-if __name__ == '__main__':
-    sys_init()
-    if len(sys.argv) == 1:
-        smile_capture("")
-    else:
-        smile_capture(sys.argv[1])
-    tempdir_cleaner()
 
 """
 参考URL:

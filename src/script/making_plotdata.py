@@ -1,11 +1,24 @@
+import os
+import sys
+import shutil
+import datetime
+
 import matplotlib.pyplot as plt
 import math
 import numpy as np
 
 from get_userdata import get_users_data
 
-def making_plot(data):#データを確認する用
-    users_data = data
+def making_plot(data,dir_exist):#データを確認する用
+    users_data = []
+    if dir_exist =="":
+        users_data = data
+        print("making_dataset")
+    else:
+        users_data = data
+        print("experiment")
+
+    #print("ここのdata:{}".format(data))
     fau_name =[6,12]
     get_faur_index = [680,684]#強度
     get_fauc_index = [697,701]#0,1判定
@@ -61,6 +74,9 @@ def making_plot(data):#データを確認する用
         timestamp=dt_now.strftime('%Y%m%d%H%M%S')
         file_name = "../data/plot/"+timestamp +".png"
         plt.savefig(file_name) #画像としてファイルの保存をする
+    if dir_exist != "":
+        print("copy")
+        shutil.copy(file_name,dir_exist)
         #plt.close()
 
 

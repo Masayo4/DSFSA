@@ -26,3 +26,4 @@ def making_smilevideo(startframe,endframe):
         video.write(img)
     print("video has made.")
     video.release()
+    return output_file
