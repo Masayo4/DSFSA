@@ -12,12 +12,12 @@ def get_users_data(csv_dir,mode):
     csv_list =[]
     if mode ==0:
         csv_list.append(dir_path)
-
     elif mode ==1:
         csv_list_path = dir_path+ "*.csv"
         csv_list = glob.glob(csv_list_path)
+    csv_list.sort()
     users_data_list =[]
-    print("usersdata:{}".format(users_data_list))
+    #print("usersdata:{}".format(users_data_list))
     #print(csv_list)
     for csv_file in csv_list:
         with open(csv_file) as csv_f:
